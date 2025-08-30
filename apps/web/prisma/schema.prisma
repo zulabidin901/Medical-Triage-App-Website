@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id        String   @id @default(cuid())
+  name      String
+  age       Int
+  gender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vitals Vital[]
+  visits Visit[]
+
+  @@map("patients")
+}
+
+model Vital {
+  id          String   @id @default(cuid())
+  patientId   String
+  bloodPressure String? // "120/80"
+  weight      Float?   // in kg
+  temperature Float?   // in celsius
+  spO2        Float?   // oxygen saturation percentage
+  heartRate   Int?     // beats per minute
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@map("vitals")
+}
+
+model Visit {
+  id               String   @id @default(cuid())
+  patientId        String
+  symptoms         String
+  aiSuggestion     String?  // JSON string: {tests: [], summary: "", severity: "", priority: ""}
+  doctorApproval   String?  // JSON string: {approved: boolean, approvedTests: [], notes: "", approvedBy: ""}
+  status           String   @default("pending") // pending, approved, rejected, completed
+  priority         String   @default("medium") // low, medium, high, emergency
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@map("visits")
+}
