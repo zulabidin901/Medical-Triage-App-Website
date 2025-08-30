@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+
+ignoredBuiltDependencies:
+  - '@prisma/client'
+  - esbuild
+
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - prisma
