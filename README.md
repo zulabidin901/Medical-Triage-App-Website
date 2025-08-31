@@ -78,10 +78,13 @@ medical-triage-app/
 ### Prerequisites
 - Node.js 18+ 
 - pnpm 8+
-- MySQL database (local or cloud)
-- OpenAI API key (optional - has fallback)
+- Google AI Studio API key (get from https://aistudio.google.com/)
+
+⚠️ **Security Note**: Never commit API keys to your repository. Always use environment variables.
 
 ### Installation
+
+⚠️ **Security Warning**: Never commit API keys to public repositories. This repository uses environment variables to keep API keys secure.
 
 1. **Clone and install dependencies**
    ```bash
@@ -98,8 +101,8 @@ medical-triage-app/
    # Database - SQLite for local development
    DATABASE_URL="file:./dev.db"
    
-   # Google AI Studio API (configured and working)
-   GOOGLE_AI_API_KEY="AIzaSyAWSEuYF-p3DS0YXpItQQd3FEG7IhZx78Y"
+   # Google AI Studio API (replace with your actual key)
+   GOOGLE_AI_API_KEY="your_google_ai_studio_api_key_here"
    ```
 
 3. **Set up the database**
@@ -158,7 +161,7 @@ The app will be available at `http://localhost:3000`
 
 ### Google AI Studio (Gemini) Integration
 - **Primary AI**: Uses Google AI Studio with Gemini 1.5 Flash model
-- **API Key**: `AIzaSyAWSEuYF-p3DS0YXpItQQd3FEG7IhZx78Y` (configured)
+- **API Key**: Set via `GOOGLE_AI_API_KEY` environment variable
 - Structured JSON response format for medical recommendations
 - Safe medical prompting (no diagnoses, only test recommendations)
 - Real-time symptom analysis and care plan generation
